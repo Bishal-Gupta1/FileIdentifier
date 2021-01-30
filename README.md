@@ -10,7 +10,7 @@ For Example: .pdf
    _pdf_     | _Portable Document Format_ | _Binary_ | _Adobe Viewer, Ghostscript, Ghostview, Xpdf, gPDF, Acrobat Reader_ | _A PDF file is a multi-platform document created by Adobe Acrobat or another PDF application. The PDF format is commonly used for saving documents and  publications in a standard format that can be viewed on multiple platforms. In many cases, PDF files are created from existing documents instead of from scratch._ | _Adobe Systems_ 
 
 
-Technology Stack:
+**Technology Stack:**
 __________________
 
 Language:       Java
