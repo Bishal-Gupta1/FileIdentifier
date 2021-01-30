@@ -6,22 +6,21 @@ import org.hibernate.cfg.Configuration;
 
 public class DatabaseCon {
 
-	static Session session;
-	public static SessionFactory factory;
+	public static Session session;
+	private static SessionFactory factory;
 
 	public DatabaseCon() {
-         /** no-arg constructor  */	
-	}
-
-	public static void startSession(){
 		factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(Files.class)
-				.buildSessionFactory();
+				.buildSessionFactory();	
+	}
+
+	public static void startSession(){		
 		session = factory.getCurrentSession();
 	}
 
-	public static void closeSession() {
+	public static void closeSessionFactory() {
 		factory.close();
 	}
 }

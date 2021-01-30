@@ -1,24 +1,21 @@
 package ResourcesScrapper;
 
-import java.net.UnknownHostException;
+import java.io.IOException;
+import java.net.SocketException;
 import org.junit.jupiter.api.Test;
 import DatabaseHandler.Files;
 
 class ResOnlineConvertTest {
 
 	@Test
-	void fetchResourcesShouldRetrieveExtensions() {
-		ResOnlineConvert onlineConvert = new ResOnlineConvert();
+	void fetchResourcesShouldRetrieveExtensions() throws SocketException, IOException {
 		try {
-			onlineConvert.fetchReosurces();
-		} catch (UnknownHostException ex) {
-			System.out.println(ex + "\n\nCheck Your Network Connection.......");
+			new ResOnlineConvert().fetchReosurces();
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
-
 		for (Files e : ResOnlineConvert.detailsOfExtension) {
-			System.out.println(e.toString());
+			System.out.println(e + "\n");
 		}
 	}
 

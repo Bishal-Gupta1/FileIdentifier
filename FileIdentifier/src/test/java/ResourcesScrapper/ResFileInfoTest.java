@@ -1,42 +1,49 @@
 package ResourcesScrapper;
 
 import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.net.SocketException;
-
 import org.junit.jupiter.api.Test;
 
 class ResFileInfoTest {
 
 	@Test
-	void fetchDescription_ShouldRetrieveDescriptionOfExtension() {
+	void getDescription_ShouldRetrieveDescriptionOfExtension() {
 		try {
-			new ResFileInfo("o");
+			ResFileInfo fileInfo = new ResFileInfo("o");
 			String des = "Object file produced by a C compiler; often created instead of a program file during the development process.";
-			assertEquals(des , ResFileInfo.fetchDescription());
-		} catch (SocketException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			System.gc();
+			assertEquals(des, fileInfo.getDescription());
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 
 	@Test
-	void fetchFormat_ShouldRetrieveFormatOfExtension() {
+	void getFormat_ShouldRetrieveFormatOfExtension() {
 		try {
-			new ResFileInfo("pdf");
-			assertEquals("Binary", ResFileInfo.fetchFormat());
-		} catch (SocketException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			System.gc();
+			ResFileInfo fileInfo = new ResFileInfo("pdf");
+			assertEquals("Binary", fileInfo.getFormat());
+		} catch (Exception e) {
+			System.out.println(e);
 		}
+	}
 
+	@Test
+	void getAuthor_ShouldRetrieveAuthorOfExtension() {
+		try {
+			ResFileInfo fileInfo = new ResFileInfo("pdf");
+			assertEquals("Adobe Systems", fileInfo.getAuthor());
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	@Test
+	void getCategory_ShouldRetrieveCategoryOfExtension() {
+		try {
+			ResFileInfo fileInfo = new ResFileInfo("pdf");
+			assertEquals("Page Layout Files", fileInfo.getCategory());
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 }

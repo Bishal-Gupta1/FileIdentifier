@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.identifier.FileIdentifier;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -30,10 +21,29 @@ public class First extends javax.swing.JFrame {
 		jTextField2 = new javax.swing.JTextField();
 		jButton3 = new javax.swing.JButton();
 		jLabel1 = new javax.swing.JLabel();
+		canvas1 = new java.awt.Canvas();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-		jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+		jTextField1.setFont(new java.awt.Font("Clarendon BT", 0, 14));
+		jTextField1.setForeground(new java.awt.Color(153, 153, 153));
+		jTextField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+		jTextField1.setText(" Enter Extension (For eg:  pdf)");
+		jTextField1.setBorder(null);
+
+		jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
+			public void focusGained(java.awt.event.FocusEvent evt) {
+				jTextField1FocusGained(evt);
+			}
+
+			public void focusLost(java.awt.event.FocusEvent evt) {
+				jTextField1FocusLost(evt);
+			}
+		});
+		getContentPane().add(jTextField1);
+		jTextField1.setBounds(10, 130, 330, 30);
+		getContentPane().add(canvas1);
+		canvas1.setBounds(380, 70, 0, 0);
 
 		jButton1.setForeground(new java.awt.Color(51, 51, 255));
 		jButton1.setText("Search");
@@ -57,9 +67,6 @@ public class First extends javax.swing.JFrame {
 				jButton3ActionPerformed(evt);
 			}
 		});
-
-		jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-		jLabel1.setText("          Extension Details ");
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
 		jPanel1.setLayout(jPanel1Layout);
@@ -110,30 +117,33 @@ public class First extends javax.swing.JFrame {
 		pack();
 	}
 
-	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+	private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {
+		if (jTextField1.getText().equals(" Enter Extension (For eg:  pdf)")) {
+			jTextField1.setText("");
+		}
+	}
 
+	private void jTextField1FocusLost(java.awt.event.FocusEvent evt) {
+		if (jTextField1.getText().equals("")) {
+			jTextField1.setText(" Enter Extension (For eg:  pdf)");
+		}
+	}
+
+	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
 		try {
-			String input = jTextField1.getText();
-			if (input == null || input.length() == 0) {
-				JOptionPane.showMessageDialog(null, "Enter Valid Input");
-				return;
+			String inputExtension = jTextField1.getText();
+			if (inputExtension == null || inputExtension=="") {
+				JOptionPane.showMessageDialog(null, "Enter Valid Input");			
 			}
-			String[] items = input.split(",");
-			ArrayList<String> list = new ArrayList<>();
-			for (String item : items) {
-				if (item.charAt(0) == '.')
-					item = item.substring(1);
-				list.add(item);
-			}
-			Second frame2 = new Second();
+			if (inputExtension.charAt(0) == '.')
+				inputExtension = inputExtension.substring(1);
+			Second frame2 = new Second(inputExtension);
 			frame2.setVisible(true);
 			frame2.pack();
 			jTextField1.setText("");
-			jTextField2.setText("");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
 	}
 
 	private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -150,42 +160,35 @@ public class First extends javax.swing.JFrame {
 		}
 	}
 
-	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
-        try{
-        	String input= jTextField2.getText();
-        	if(input==null||input.length()==0)
-            {
-            	JOptionPane.showMessageDialog(null,"Enter Valid Input");
-            	return;
-            }
-        File f1= new File(input);
-        BufferedReader br= new BufferedReader(new FileReader(f1));
-       
-        ArrayList<String> items= new ArrayList<>();
-        String line;
-        line = br.readLine();
-        while(line !=null)
-        {
-            if(line.charAt(0)=='.')
-            {
-                line = line.substring(1);
-            }
-            items.add(line);
-            line = br.readLine();
-        }
-        Second frame3= new Second();
-        frame3.setVisible(true);
-        frame3.pack();
-        jTextField1.setText("");
-        jTextField2.setText("");
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
+	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+		try {
+			String input = jTextField2.getText();
+			if (input == null || input.length() == 0) {
+				JOptionPane.showMessageDialog(null, "Enter Valid Input");
+				return;
+			}
+			File f1 = new File(input);
+			BufferedReader br = new BufferedReader(new FileReader(f1));
 
-   }
+			ArrayList<String> items = new ArrayList<>();
+			String line;
+			line = br.readLine();
+			while (line != null) {
+				if (line.charAt(0) == '.') {
+					line = line.substring(1);
+				}
+				items.add(line);
+				line = br.readLine();
+			}
+			Second frame3 = new Second();
+			frame3.setVisible(true);
+			frame3.pack();
+			jTextField1.setText("");
+			jTextField2.setText("");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * @param args the command line arguments
@@ -226,5 +229,6 @@ public class First extends javax.swing.JFrame {
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JTextField jTextField1;
+	private java.awt.Canvas canvas1;
 	// End of variables declaration//GEN-END:variables
 }

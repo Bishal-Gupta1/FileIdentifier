@@ -1,62 +1,82 @@
 package ResourcesScrapper;
 
 import java.io.IOException;
-import java.net.SocketException;
 import java.util.Iterator;
-import org.jsoup.Connection.Response;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 public class ResFileInfo {
-	public static Document doc;
-	public static Boolean responseStatus;
+	private String url;
+	public Document doc;
 
-	public ResFileInfo(String extension) throws IOException, SocketException {
-		final String url = "https://fileinfo.com/extension/" + extension;
-		Response response = Jsoup.connect(url).execute();
-		if (response.statusCode() == 200) {
+	public String description;
+	public String format;
+	public String category;
+	public String author;
+
+	public ResFileInfo(String extension)throws HttpStatusException {
+		url = "https://fileinfo.com/extension/" + extension;
+		try {
 			doc = Jsoup.connect(url).get();
-			responseStatus = true;
-		} else
-			responseStatus = false;
+			setAll();
+		} catch (HttpStatusException e) {
+			throw new HttpStatusException("Extension not found",404,url);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+		
 	}
 
-	public static String fetchDescription() {
-		String description = "";
-		if (responseStatus) {
-			description = doc.select(" div.infoBox:nth-of-type(2)").text();
-			if (description == null || description.equals("")) {
-				description = "N/A";
-			}
-		}
-		return description;
+	public void setAll() {
+		Element Table = doc.select("table.headerInfo").first();
+		/*
+		 * Making table Iterable... 2nd Column of Table is -> td:nth-of-type(2)
+		 */
+		Iterator<Element> it = Table.select("td:nth-of-type(2)").iterator();
+
+		this.author = it.next().text();
+		if (invalid(this.author))
+			this.author = "N/A";
+
+		// this element is skipped as it is popularity of extension, which is not required.
+		it.next();
+
+		this.category = it.next().text();
+		if (invalid(this.category))
+			this.category = "N/A";
+
+		this.format = it.next().text();
+		if (invalid(this.format))
+			this.format = "N/A";
+
+		this.description = doc.select(" div.infoBox:nth-of-type(2)").text();
+		if (invalid(this.description))
+			this.description = "N/A";
 	}
 
-	public static String fetchFormat() {
-		String format = "";
-		if (responseStatus) {
-			Element Table = doc.select("table.headerInfo").first();
-			/*
-			 * Making table Iterable... 2nd Column of Table is being referred by
-			 * td:nth-of-type(2)
-			 */
-			Iterator<Element> it = Table.select("td:nth-of-type(2)").iterator();
-			it.next();
-			it.next();
-			it.next();
-			format = it.next().text();
-			if ((format == null) || (format.equals(""))) {
-				format = "N/A";
-			}
-			/*
-			 * Another way of Fetching Format
-			 * 
-			 * int j=1; for (Element row : doc.select("table.headerInfo tr")) { if (j == 4)
-			 * format = row.select("td:nth-of-type(2)").text(); ++j; }
-			 */
-		}
-		return format;
+	public Boolean invalid(String str) {
+		if (str == null || str.equals(""))
+			return true;
+		else
+			return false;
+	}
+
+	public String getDescription() {
+		return this.description;
+	}
+
+	public String getFormat() {
+		return this.format;
+	}
+
+	public String getCategory() {
+		return this.category;
+	}
+
+	public String getAuthor() {
+		return this.author;
 	}
 
 }

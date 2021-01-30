@@ -22,9 +22,6 @@ public class Files {
 	@Column(name = "APPLICATION")
 	private String application = "N/A";
 
-	@Column(name = "PROGRAM_PARADIGM")
-	private String programParadigm = "N/A";
-
 	@Column(name = "DESCRIPTION")
 	private String description = "N/A";
 
@@ -32,11 +29,12 @@ public class Files {
 	private String author = "N/A";
 
 	public Files() {
-
+		/* No-arg Costructor */
 	}
 
-	public Files(String ext) {
+	public Files(String ext, String format) {
 		this.extension = ext;
+		this.format = format;
 	}
 
 	public Files(String extension, String category, String format, String application, String programParadigm,
@@ -45,7 +43,6 @@ public class Files {
 		this.category = category;
 		this.format = format;
 		this.application = application;
-		this.programParadigm = programParadigm;
 		this.description = description;
 		this.author = author;
 	}
@@ -82,14 +79,6 @@ public class Files {
 		this.application = application;
 	}
 
-	public String getProgramParadigm() {
-		return programParadigm;
-	}
-
-	public void setProgramParadigm(String programParadigm) {
-		this.programParadigm = programParadigm;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -109,8 +98,7 @@ public class Files {
 	@Override
 	public String toString() {
 		return "extension=" + extension + "\ncategory=" + category + "\nformat=" + format + "\napplication="
-				+ application + "\nprogramParadigm=" + programParadigm + "\ndescription=" + description + "\nauthor="
-				+ author;
+				+ application + "\ndescription=" + description + "\nauthor=" + author;
 	}
 
 }
