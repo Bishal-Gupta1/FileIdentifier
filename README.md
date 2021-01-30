@@ -2,7 +2,7 @@
 **"FileType Identifier"** is a GUI based system that contains a searchable database of over 5000 file extensions with detailed information 
 about the associated file types : _Extension_, _Category_, _Format_, _Application_, _Description_, _Author_.
 You can look up related detailed information about unknown file type. 
-
+____________________
 For Example: .pdf 
 
    Extension | Category | Format | Application | Description | Author 
@@ -19,7 +19,9 @@ Database:       Oracle 11g XE
 
 Tool/Framework: Hibernate
 
-Others:         Web-Scrape
+IDE:            Eclipse  
+
+Others:         Web scraping
 
 _________________________
 
