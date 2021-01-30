@@ -8,6 +8,10 @@ import DatabaseHandler.ReadDatabase;
 
 public class Second extends javax.swing.JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String[] heading = new String[] { "Extension", "Category", "Format", "Application", "Description", "Author" };
 	String inputExtension;
 	Files file;
@@ -39,7 +43,6 @@ public class Second extends javax.swing.JFrame {
 			e.printStackTrace();
 			return;
 		}
-
 	}
 
 	private void initComponents() {

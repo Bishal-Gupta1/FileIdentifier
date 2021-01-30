@@ -3,11 +3,14 @@ package com.identifier.FileIdentifier;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 public class First extends javax.swing.JFrame {
+
+	private static final long serialVersionUID = 1L;
 
 	public First() {
 		initComponents();
@@ -64,7 +67,11 @@ public class First extends javax.swing.JFrame {
 		jButton3.setText("Submit");
 		jButton3.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton3ActionPerformed(evt);
+				try {
+					jButton3ActionPerformed(evt);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -132,8 +139,8 @@ public class First extends javax.swing.JFrame {
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
 		try {
 			String inputExtension = jTextField1.getText();
-			if (inputExtension == null || inputExtension=="") {
-				JOptionPane.showMessageDialog(null, "Enter Valid Input");			
+			if (inputExtension == null || inputExtension == "") {
+				JOptionPane.showMessageDialog(null, "Enter Valid Input");
 			}
 			if (inputExtension.charAt(0) == '.')
 				inputExtension = inputExtension.substring(1);
@@ -151,7 +158,6 @@ public class First extends javax.swing.JFrame {
 		int i = fc.showOpenDialog(null);
 		if (i == JFileChooser.APPROVE_OPTION) {
 			File f = fc.getSelectedFile();
-			// String filepath=f.getPath();
 			try {
 				jTextField2.setText(f.getAbsolutePath());
 			} catch (Exception ex) {
@@ -160,7 +166,8 @@ public class First extends javax.swing.JFrame {
 		}
 	}
 
-	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) throws IOException {
+		BufferedReader br = null;
 		try {
 			String input = jTextField2.getText();
 			if (input == null || input.length() == 0) {
@@ -168,7 +175,7 @@ public class First extends javax.swing.JFrame {
 				return;
 			}
 			File f1 = new File(input);
-			BufferedReader br = new BufferedReader(new FileReader(f1));
+			br = new BufferedReader(new FileReader(f1));
 
 			ArrayList<String> items = new ArrayList<>();
 			String line;
@@ -187,6 +194,8 @@ public class First extends javax.swing.JFrame {
 			jTextField2.setText("");
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			br.close();
 		}
 	}
 
